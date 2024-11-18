@@ -1,11 +1,17 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Proiect_ASP.NET.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Adaugă serviciile necesare aplicației.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<Proiect_ASPNETContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Proiect_ASPNETContext") ?? throw new InvalidOperationException("Connection string 'Proiect_ASPNETContext' not found.")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurează pipeline-ul HTTP.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -16,6 +22,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Configurează ruta implicită pentru pagina principală.
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/ClaseFitness");
+    return Task.CompletedTask;
+});
+
+// Map Razor Pages
 app.MapRazorPages();
 
 app.Run();

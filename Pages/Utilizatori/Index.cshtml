@@ -1,0 +1,48 @@
+﻿@page
+@model Proiect_ASP.NET.Pages.Utilizatori.IndexModel
+
+@{
+    ViewData["Title"] = "Utilizatori";
+}
+
+<h1>Utilizatori</h1>
+
+<p>
+    <a asp-page="Create">Adauga un nou membru</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].Nume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].TipUtilizator)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Utilizator) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipUtilizator)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

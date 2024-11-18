@@ -1,0 +1,49 @@
+﻿@page
+@model Proiect_ASP.NET.Pages.ClaseFitness.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ClasaFitness</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClasaFitness.NumeClasa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClasaFitness.NumeClasa)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClasaFitness.Orar)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClasaFitness.Orar)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClasaFitness.Capacitate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClasaFitness.Capacitate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClasaFitness.Data)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClasaFitness.Data)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClasaFitness.InstructorID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClasaFitness.InstructorID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.ClasaFitness.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

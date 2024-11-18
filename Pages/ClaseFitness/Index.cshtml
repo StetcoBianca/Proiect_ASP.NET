@@ -1,0 +1,64 @@
+﻿@page
+@model Proiect_ASP.NET.Pages.ClaseFitness.IndexModel
+
+@{
+    ViewData["Title"] = "Clase Fitness";
+}
+
+<h1>Clase Fitness</h1>
+
+<p>
+    <a asp-page="Create">Adauga o noua clasa de fitness</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClasaFitness[0].NumeClasa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClasaFitness[0].Orar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClasaFitness[0].Capacitate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClasaFitness[0].Data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClasaFitness[0].InstructorID)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.ClasaFitness[0].Instructor.Nume)</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ClasaFitness) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeClasa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Orar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacitate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstructorID)
+            </td>
+                <td>@Html.DisplayFor(modelItem => item.Instructor.Nume)</td>
+
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
