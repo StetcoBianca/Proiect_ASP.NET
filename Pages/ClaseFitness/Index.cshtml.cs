@@ -19,13 +19,33 @@ namespace Proiect_ASP.NET.Pages.ClaseFitness
             _context = context;
         }
 
-        public IList<ClasaFitness> ClasaFitness { get;set; } = default!;
+        public IList<ClasaFitness> ClasaFitness { get; set; } = new List<ClasaFitness>();
+        public ClasaFitnessData ClasaFitnessD { get; set; }
+        public int ClasaFitnessID { get; set; }
+        public int CategorieFitnessID { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id, int? categorieID)
         {
-            ClasaFitness = await _context.ClasaFitness
-                .Include(c => c.Instructor)
-                .ToListAsync();
+            ClasaFitnessD = new ClasaFitnessData
+            {
+                ClaseFitness = await _context.ClasaFitness
+                    .Include(c => c.Instructor)
+                    .Include(c => c.ClasaCategorieFitness)
+                    .ThenInclude(cc => cc.CategorieFitness)
+                    .AsNoTracking()
+                    .OrderBy(c => c.NumeClasa)
+                    .ToListAsync()
+            };
+
+            if (id != null)
+            {
+                ClasaFitnessID = id.Value;
+                ClasaFitness clasaFitness = ClasaFitnessD.ClaseFitness
+                    .Where(c => c.ID == id.Value).Single();
+
+                ClasaFitnessD.CategoriiFitness = clasaFitness.ClasaCategorieFitness
+                    .Select(cc => cc.CategorieFitness);
+            }
         }
     }
 }

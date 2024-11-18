@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proiect_ASP.NET.Data;
 
@@ -11,9 +12,11 @@ using Proiect_ASP.NET.Data;
 namespace Proiect_ASP.NET.Migrations
 {
     [DbContext(typeof(Proiect_ASPNETContext))]
-    partial class Proiect_ASPNETContextModelSnapshot : ModelSnapshot
+    [Migration("20241118212900_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,12 +44,12 @@ namespace Proiect_ASP.NET.Migrations
                     b.HasData(
                         new
                         {
-                            ID = 3,
+                            ID = 1,
                             NumeCategorie = "Cardio"
                         },
                         new
                         {
-                            ID = 4,
+                            ID = 2,
                             NumeCategorie = "Stretching"
                         });
                 });
@@ -77,13 +80,13 @@ namespace Proiect_ASP.NET.Migrations
                         new
                         {
                             ID = 1,
-                            CategorieFitnessID = 3,
+                            CategorieFitnessID = 1,
                             ClasaFitnessID = 1
                         },
                         new
                         {
                             ID = 2,
-                            CategorieFitnessID = 4,
+                            CategorieFitnessID = 2,
                             ClasaFitnessID = 2
                         });
                 });
@@ -129,7 +132,7 @@ namespace Proiect_ASP.NET.Migrations
                         {
                             ID = 1,
                             Capacitate = 15,
-                            Data = new DateTime(2024, 11, 19, 23, 34, 12, 822, DateTimeKind.Local).AddTicks(7366),
+                            Data = new DateTime(2024, 11, 19, 23, 28, 59, 200, DateTimeKind.Local).AddTicks(6669),
                             InstructorID = 1,
                             NumeClasa = "Zumba",
                             Orar = "Luni 18:00"
@@ -138,7 +141,7 @@ namespace Proiect_ASP.NET.Migrations
                         {
                             ID = 2,
                             Capacitate = 20,
-                            Data = new DateTime(2024, 11, 20, 23, 34, 12, 822, DateTimeKind.Local).AddTicks(7423),
+                            Data = new DateTime(2024, 11, 20, 23, 28, 59, 200, DateTimeKind.Local).AddTicks(6723),
                             InstructorID = 2,
                             NumeClasa = "Pilates",
                             Orar = "Marti 19:00"

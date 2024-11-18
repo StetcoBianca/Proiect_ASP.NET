@@ -11,7 +11,7 @@ using Proiect_ASP.NET.Models;
 
 namespace Proiect_ASP.NET.Pages.ClaseFitness
 {
-    public class EditModel : PageModel
+    public class EditModel : CategorieFitnessPageModel
     {
         private readonly Proiect_ASP.NET.Data.Proiect_ASPNETContext _context;
 
@@ -30,7 +30,12 @@ namespace Proiect_ASP.NET.Pages.ClaseFitness
                 return NotFound();
             }
 
-            var clasafitness = await _context.ClasaFitness.FirstOrDefaultAsync(m => m.ID == id);
+            var clasafitness = await _context.ClasaFitness
+                .Include(c => c.ClasaCategorieFitness)
+                .ThenInclude(cc => cc.CategorieFitness)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (clasafitness == null)
             {
                 return NotFound();
@@ -38,45 +43,47 @@ namespace Proiect_ASP.NET.Pages.ClaseFitness
 
             ClasaFitness = clasafitness;
 
+            PopulateAssignedCategorieData(_context, ClasaFitness);
+
             // Populează dropdown-ul pentru instructori
             ViewData["InstructorID"] = new SelectList(_context.Instructor, "ID", "Nume");
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                // Re-populează dropdown-ul în cazul unei erori de validare
-                ViewData["InstructorID"] = new SelectList(_context.Instructor, "ID", "Nume");
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(ClasaFitness).State = EntityState.Modified;
+            var clasaToUpdate = await _context.ClasaFitness
+                .Include(c => c.ClasaCategorieFitness)
+                .ThenInclude(cc => cc.CategorieFitness)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
-            try
+            if (clasaToUpdate == null)
             {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<ClasaFitness>(
+                clasaToUpdate,
+                "ClasaFitness",
+                c => c.NumeClasa, c => c.Orar, c => c.Capacitate, c => c.Data, c => c.InstructorID))
+            {
+                // Update categories based on selected checkboxes
+                UpdateFitnessCategories(_context, selectedCategories, clasaToUpdate);
+
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClasaFitnessExists(ClasaFitness.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
-        }
-
-        private bool ClasaFitnessExists(int id)
-        {
-            return _context.ClasaFitness.Any(e => e.ID == id);
+            // Repopulate dropdowns and checkbox data in case of error
+            PopulateAssignedCategorieData(_context, clasaToUpdate);
+            ViewData["InstructorID"] = new SelectList(_context.Instructor, "ID", "Nume");
+            return Page();
         }
     }
 }

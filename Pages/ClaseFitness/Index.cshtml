@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model Proiect_ASP.NET.Pages.ClaseFitness.IndexModel
 
 @{
@@ -29,13 +29,23 @@
                 @Html.DisplayNameFor(model => model.ClasaFitness[0].InstructorID)
             </th>
             <th>@Html.DisplayNameFor(model => model.ClasaFitness[0].Instructor.Nume)</th>
+            <th>@Html.DisplayNameFor(model => model.ClasaFitness[0].ClasaCategorieFitness)</th>
+
 
             <th></th>
         </tr>
     </thead>
     <tbody>
+
+
 @foreach (var item in Model.ClasaFitness) {
-        <tr>
+            string selectedRow = "";
+            if (item.ID == Model.ClasaFitnessID)
+            {
+                selectedRow = "table-success";
+            }
+
+            <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.NumeClasa)
             </td>
@@ -51,7 +61,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.InstructorID)
             </td>
-                <td>@Html.DisplayFor(modelItem => item.Instructor.Nume)</td>
+            <td>@Html.DisplayFor(modelItem => item.Instructor.Nume)</td>
+                <td>
+                    @{
+                        foreach (var categorie in item.ClasaCategorieFitness)
+                        {
+                            @categorie.CategorieFitness.ID @: @categorie.CategorieFitness.NumeCategorie <br />
+                        }
+                    }
+                </td>
+
+
 
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

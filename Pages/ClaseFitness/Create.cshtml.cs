@@ -10,7 +10,7 @@ using Proiect_ASP.NET.Models;
 
 namespace Proiect_ASP.NET.Pages.ClaseFitness
 {
-    public class CreateModel : PageModel
+    public class CreateModel : CategorieFitnessPageModel
     {
         private readonly Proiect_ASP.NET.Data.Proiect_ASPNETContext _context;
 
@@ -21,20 +21,42 @@ namespace Proiect_ASP.NET.Pages.ClaseFitness
 
         public IActionResult OnGet()
         {
+
+            ViewData["InstructorID"] = new SelectList(_context.Instructor, "ID", "Nume");
+
+            var clasaFitness = new ClasaFitness
+            {
+                ClasaCategorieFitness = new List<ClasaCategorieFitness>()
+            };
+            PopulateAssignedCategorieData(_context, clasaFitness);
+
             return Page();
         }
 
         [BindProperty]
-        public ClasaFitness ClasaFitness { get; set; } = default!;
+        public ClasaFitness ClasaFitness { get; set; }
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
+            var newClasaFitness = new ClasaFitness
             {
-                ViewData["InstructorID"] = new SelectList(_context.Instructor, "ID", "Nume");
-                return Page();
+                ClasaCategorieFitness = new List<ClasaCategorieFitness>()
+            };
+
+            if (selectedCategories != null)
+            {
+                foreach (var cat in selectedCategories)
+                {
+                    var categoryToAdd = new ClasaCategorieFitness
+                    {
+                        CategorieFitnessID = int.Parse(cat)
+                    };
+                    newClasaFitness.ClasaCategorieFitness.Add(categoryToAdd);
+                }
             }
+
+            ClasaFitness.ClasaCategorieFitness = newClasaFitness.ClasaCategorieFitness;
 
             _context.ClasaFitness.Add(ClasaFitness);
             await _context.SaveChangesAsync();

@@ -2,10 +2,10 @@
 @model Proiect_ASP.NET.Pages.ClaseFitness.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Clasa Fitness";
 }
 
-<h1>Create</h1>
+<h1>Create Clasa Fitness</h1>
 
 <h4>ClasaFitness</h4>
 <hr />
@@ -38,6 +38,38 @@
                 <select asp-for="ClasaFitness.InstructorID" class="form-control" asp-items="ViewBag.InstructorID"></select>
                 <span asp-validation-for="ClasaFitness.InstructorID" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @if (Model.AssignedCategorieDataList != null)
+                            {
+                                int cnt = 0;
+                                foreach (var cat in Model.AssignedCategorieDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                    <input type="checkbox"
+                                           name="selectedCategories"
+                                           value="@cat.CategorieID"
+                                           @(Html.Raw(cat.Assigned ? "checked=\"checked\"" : "")) />
+                                    @cat.CategorieID @: @cat.Nume
+                                    @:</td>
+                                }
+                            }
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

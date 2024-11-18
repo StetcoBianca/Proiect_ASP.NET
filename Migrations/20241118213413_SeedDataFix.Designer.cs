@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proiect_ASP.NET.Data;
 
@@ -11,9 +12,11 @@ using Proiect_ASP.NET.Data;
 namespace Proiect_ASP.NET.Migrations
 {
     [DbContext(typeof(Proiect_ASPNETContext))]
-    partial class Proiect_ASPNETContextModelSnapshot : ModelSnapshot
+    [Migration("20241118213413_SeedDataFix")]
+    partial class SeedDataFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
